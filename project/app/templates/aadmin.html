@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Partner & Content Hub</title>
+    <style>
+        /* Netflix Dark Theme Variables */
+        :root {
+            --netflix-black: #141414;
+            --netflix-red: #E50914;
+            --netflix-dark-red: #B81D24;
+            --card-bg: #1F1F1F;
+            --text-main: #FFFFFF;
+            --text-muted: #A3A3A3;
+            --border-color: #333333;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background-color: var(--netflix-black);
+            color: var(--text-main);
+        }
+        
+        #content-main {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* Top Branding Header */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .brand-logo {
+            color: var(--netflix-red);
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-transform: uppercase;
+            margin-right: 15px;
+        }
+        .brand-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            border-left: 2px solid var(--border-color);
+            padding-left: 15px;
+            margin-top: 5px;
+        }
+
+        /* Stats Bar Styling */
+        .stats-counter {
+            background: linear-gradient(90deg, var(--card-bg), #262626);
+            border-left: 5px solid var(--netflix-red);
+            color: var(--text-main);
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+        .stats-counter span {
+            color: var(--netflix-red);
+            font-size: 24px;
+        }
+        
+        /* Layout Grid for Twin Tables */
+        .dashboard-grid {
+            display: flex;
+            gap: 25px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        .dashboard-col {
+            flex: 1;
+            min-width: 500px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.6);
+        }
+        
+        h3 {
+            font-size: 20px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        /* Scrollable Container */
+        .scrollable-table-container {
+            height: 350px; 
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: #181818;
+        }
+        
+        /* Premium Dark Tables */
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; }
+        th { background-color: #222222; color: var(--text-muted); position: sticky; top: 0; z-index: 1; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+        tr:hover { background-color: #262626; }
+        
+        /* Netflix Registration Box Style */
+        .registration-box {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .registration-box input, .registration-box select {
+            background-color: #333333;
+            color: var(--text-main);
+            border: 1px solid transparent;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 180px;
+            outline: none;
+            transition: background 0.2s, border 0.2s;
+        }
+        .registration-box input:focus, .registration-box select:focus {
+            background-color: #444444;
+            border-color: var(--text-muted);
+        }
+        
+        /* Netflix Premium Buttons */
+        .btn-netflix-main {
+            background: var(--netflix-red); 
+            color: white; 
+            border: none; 
+            padding: 12px 24px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+        }
+        .btn-netflix-main:hover {
+            background: var(--netflix-dark-red);
+        }
+
+        /* Action Buttons */
+        .action-flex {
+            display: flex;
+            gap: 8px;
+        }
+        .revoke-btn {
+            background-color: transparent;
+            color: var(--netflix-red);
+            border: 1px solid var(--netflix-red);
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .revoke-btn:hover {
+            background-color: var(--netflix-red);
+            color: white;
+        }
+        
+        .block-btn {
+            background-color: #e5a93b;
+            color: #141414;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .block-btn:hover {
+            background-color: #cc922e;
+        }
+
+        .delete-btn {
+            background-color: #333;
+            color: #ff4444;
+            border: 1px solid #ff4444;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .delete-btn:hover {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        .status-revoked {
+            color: #666; 
+            font-style: italic;
+        }
+        
+        /* Badges */
+        .badge-paid {
+            background-color: rgba(70, 161, 70, 0.2);
+            color: #46a146;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .badge-free {
+            background-color: rgba(163, 163, 163, 0.2);
+            color: var(--text-muted);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="content-main">
+
+    <!-- Brand Header Area -->
+    <div class="brand-header">
+        <div class="brand-logo" id="site-logo">Netflix</div>
+        <div class="brand-subtitle" id="site-subtitle">Content & Partner Admin Hub</div>
+    </div>
+
+    
+
+    <!-- 1. Total Registered Counter -->
+    <div class="stats-counter" id="total-users-counter">
+        Total Registered Members: <span id="user-count-value">1,482</span>
+    </div>
+
+    <!-- 2. Netflix-Style Movie Registration Box -->
+    <div class="registration-box" id="movie-registration-section">
+        <h3 style="border:none; margin-bottom:0;">Add Premium Title</h3>
+        <form id="movie-add-form" action="#" method="POST">
+            {% csrf_token %} 
+            <div class="form-row">
+                <!-- Requirement 1: Unique ID Category / Content Code -->
+                <input type="text" id="input-category-id" name="category_id" placeholder="Unique Content ID (e.g. NFLX-1092)" required>
+                
+                <input type="text" id="input-movie-name" name="movie_name" placeholder="Movie / Show Title" required>
+                
+                <select id="select-movie-genre" name="movie_genre" required>
+                    <option value="">Select Genre</option>
+                    <option value="AT">Action / Thriller</option>
+                    <option value="D">Drama</option>
+                    <option value="C">Comedy</option>
+                    <option value="H">Horror</option>
+                    <option value="DOC">Documentary</option>
+                </select>
+                
+                <button type="submit" class="btn-netflix-main" id="btn-register-movie" name="add_movie">Publish Title</button>
+            </div>
+        </form>
+    </div>
+
+ <!-- 3. Twin Tables Section (Scrollable) -->
+<div class="dashboard-grid" id="dashboard-tables-container">
+    
+    <!-- Table 1: Movies List -->
+    <div class="dashboard-col" id="col-registered-movies">
+        <h3>Active Content Catalog</h3>
+        <div class="scrollable-table-container" id="container-movies-table">
+            <table id="table-movies">
+                <thead>
+                    <tr>
+                        <th>Content ID</th>
+                        <th>Title</th>
+                        <th>Genre</th>
+                        <th>Status Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-movies-list">
+                    {% for movie in all_movies %}
+                    <tr id="movie-row-{{ movie.id }}">
+                        <td><strong>{{ movie.category_id }}</strong></td>
+                        
+                        <!-- Fixed: 'movies_name' ko badal kar 'movie_name' kiya -->
+                        <td>{{ movie.movie_name }}</td>
+                        
+                        <td>{{ movie.get_movie_genre_display }}</td>
+                        
+                      
+                        <td>
+                            <!-- Fixed: URL dynamically target kiya delete route par -->
+                            <form action="{% url 'movies_delete' movie.id %}" method="POST" style="display:inline;" id="form-revoke-{{ movie.id }}">
+                                {% csrf_token %}
+                                <button type="submit" class="revoke-btn" id="btn-revoke-{{ movie.id }}">Revoke</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <!-- Fixed: Colspan ko 5 kiya kyunki table mein total 5 columns hain -->
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">
+                            🍿 No movies found in the catalog. Add a premium title above!
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+        <!-- Table 2: User Registrations & Plans -->
+        <div class="dashboard-col" id="col-registered-users">
+            <h3>Registered Users & Plans</h3>
+            <div class="scrollable-table-container" id="container-users-table">
+                <table id="table-users">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>user-id</th>
+                            <th>Plan</th>
+                            <th>Paid Date</th>
+                            <th>block</th>
+                            <th>delete</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-users-list">
+                        <!-- Sample Data Row 1 -->
+                        <tr id="user-row-1">
+                            <td>Amit Sharma</td>
+                            <td>amit@example.com</td>
+                            <td><span style="font-weight: bold; color: #26471E;" id="user-plan-1">Paid</span></td>
+                            <td>UID-9912</td>
+                            <td id="user-date-1">2026-06-20 </td>
+                            <td><button>block</button></td>
+                            <td><button>delete</button></td>
+                        </tr>
+                        <!-- Sample Data Row 2 -->
+                        <tr id="user-row-2">
+                            <td>Rahul Verma</td>
+                            <td>rahul@example.com</td>
+                            <td><span style="font-weight: bold; color: #666;" id="user-plan-2">Free</span></td>
+                            <td id="user-date-2">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

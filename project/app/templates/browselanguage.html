@@ -1,0 +1,351 @@
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<style>
+  /* इमेज के अनुसार बैकग्राउंड को डार्क रखने के लिए */
+  body {
+    background-color: #141414;
+    color: #fff;
+  }
+  /* एक्टिव और होवर लिंक्स का रंग */
+  .navbar-dark .navbar-nav .nav-link {
+    color: #e5e5e5;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+  }
+  .navbar-dark .navbar-nav .nav-link:hover,
+  .navbar-dark .navbar-nav .nav-link.active {
+    color: #fff;
+  }
+  .navbar-brand {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+
+
+
+
+/* मुख्य कार्ड डिजाइन */
+.spotlight-card {
+  position: relative;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.spotlight-img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3; /* वर्टिकल पोस्टर साइज */
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+/* होवर करने पर कार्ड का ज़ूम और नेटफ्लिक्स इफेक्ट */
+.spotlight-card:hover {
+  transform: scale(1.06);
+  z-index: 20;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+  background-color: #242424; /* इमेज जैसा डार्क ग्रे बैकग्राउंड */
+}
+
+/* होवर इनफार्मेशन बॉक्स (शुरुआत में छुपा रहेगा) */
+.card-hover-info {
+  padding: 12px;
+  background-color: #242424;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+
+.movie-name {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* नाम बड़ा होने पर ... दिखाएगा */
+}
+
+/* बटन्स का लेआउट */
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+/* Watch बटन स्टाइल (इमेज के अनुसार बॉर्डर वाला) */
+.btn-action-watch {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 0.8rem;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.btn-action-watch:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* Share बटन स्टाइल */
+.btn-action-share {
+  background-color: transparent;
+  color: #b3b3b3;
+  border: none;
+  font-size: 0.8rem;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+}
+.btn-action-share:hover {
+  color: #fff;
+}
+
+
+
+
+
+
+  .netflix-footer {
+    background-color: #141414; /* नेटफ्लिक्स ब्लैक बैकग्राउंड */
+    color: #808080; /* ग्रे टेक्स्ट कलर */
+    font-size: 0.8rem;
+    padding-top: 50px;
+    padding-bottom: 40px;
+  }
+  /* सोशल मीडिया आइकॉन्स */
+  .footer-social-icons a {
+    color: #808080;
+    font-size: 1.5rem;
+    margin-right: 25px;
+    transition: color 0.2s;
+  }
+  .footer-social-icons a:hover {
+    color: #fff;
+  }
+  /* फुटर लिंक्स */
+  .footer-links a {
+    color: #808080;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+
+    /* कॉपीराइट टेक्स्ट स्टाइल (इमेज के अनुसार म्यूटेड और सेंटर में) */
+  .footer-copyright {
+    font-size: 0.75rem;
+    color: #555555;
+    letter-spacing: 0.5px;
+  }
+
+
+
+
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent px-md-5 py-3">
+  <div class="container-fluid">
+    <!-- नेटफ्लिक्स लोगो -->
+    <a class="navbar-brand text-danger fw-bold fs-2 me-4" href="{% url 'nlogo' %}" style="letter-spacing: -1px;">NETFLIX</a>
+
+    <!-- मोबाइल के लिए टॉगल बटन -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- बीच के लिंक्स (इमेज के अनुसार नाम) -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+        <li class="nav-item"><a class="nav-link active" href="{% url 'nav'%}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'tvshows'%}">TV Shows</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'movies'%}">Movies</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'newpopular'%}">New & Popular</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'mylist'%}">My list</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'browselanguage'%}">Browse by Language</a></li>
+
+      </ul>
+
+      <!-- दाईं ओर के आइकॉन और अकाउंट लिंक (इमेज के अनुसार) -->
+      <div class="d-flex align-items-center gap-4 text-white">
+        <!-- सर्च आइकॉन -->
+        <a href="#" class="text-white text-decoration-none fs-5"><i class="bi bi-search"></i></a>
+        
+        <!-- नोटिफिकेशन बेल आइकॉन -->
+        <a href="#" class="text-white text-decoration-none fs-5"><i class="bi bi-bell-fill"></i></a>
+        
+        <!-- अकाउंट टेक्स्ट -->
+        <a href="#" class="text-white text-decoration-none" style="font-size: 0.9rem;">Account</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<main class="trending-section py-4"
+      style="background-color: #141414; min-height: 100vh;">
+
+    <div class="container-fluid px-md-5">
+
+        <h2 class="text-white fw-bold mb-4"
+            style="font-size: 1.6rem; letter-spacing: 0.5px;">
+            Browse by Language
+        </h2>
+
+        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-5 g-4">
+
+            {% for movie in movies %}
+
+            <div class="col">
+
+                <div class="spotlight-card">
+
+                    <img
+                        src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                        class="spotlight-img"
+                        alt="{{ movie.title }}"
+                    >
+
+                    <div class="card-hover-info">
+
+                        <h5 class="movie-name">
+                            {{ movie.title }}
+                        </h5>
+
+                        <div class="card-actions">
+
+                            <button class="btn btn-action-watch">
+                                <i class="bi bi-play-fill"></i>
+                                Watch
+                            </button>
+
+                            <button class="btn btn-action-share">
+                                <i class="bi bi-reply-fill"></i>
+                                Share
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% empty %}
+
+            <p class="text-white">
+                No movies found.
+            </p>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</main>
+
+
+
+
+
+
+
+
+
+
+<footer class="netflix-footer">
+  <div class="container-fluid px-md-5">
+    
+    <!-- सोशल मीडिया आइकॉन्स (इमेज के अनुसार) -->
+    <div class="footer-social-icons mb-4 ps-2">
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-twitter-x"></i></a> <!-- नए Twitter/X आइकॉन के लिए -->
+      <a href="#"><i class="bi bi-youtube"></i></a>
+    </div>
+
+    <!-- फुटर लिंक्स ग्रिड (4 कॉलम्स) -->
+    <div class="row footer-links g-3 ps-2">
+      <!-- कॉलम 1 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Audio and Subtitles</a>
+        <a href="#" class="d-block">Media Center</a>
+        <a href="#" class="d-block">Privacy</a>
+      </div>
+      
+      <!-- कॉलम 2 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Audio Description</a>
+        <a href="#" class="d-block">Investor Relations</a>
+        <a href="#" class="d-block">Legal Notices</a>
+      </div>
+      
+      <!-- कॉलम 3 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Help Center</a>
+        <a href="#" class="d-block">Jobs</a>
+        <a href="#" class="d-block">Corporate Information</a>
+      </div>
+      
+      <!-- कॉलम 4 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Gift Cards</a>
+        <a href="#" class="d-block">Terms of Use</a>
+        <a href="#" class="d-block">Contact Us</a>
+      </div>
+    </div>
+
+     <div class="text-center footer-copyright mt-4">
+      <p class="mb-1">&copy; 1997-2026 Netflix, Inc.</p>
+      <p class="mb-0">Carlos Avila &copy; 2026</p>
+    </div>
+
+
+  </div>
+</footer>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+function scrollSlider(sliderId, direction) {
+  const track = document.getElementById(sliderId);
+  // स्क्रीन की चौड़ाई के हिसाब से तय करें कि कितना खिसकना है
+  const scrollAmount = track.clientWidth * 0.8; 
+  track.scrollBy({
+    left: scrollAmount * direction,
+    behavior: 'smooth'
+  });
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+

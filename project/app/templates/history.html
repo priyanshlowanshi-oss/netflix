@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="hi" data-bs-theme="dark" id="mainHtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix - Watch History</title>
+ <!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <style>
+    /* CSS Variables (थीम सपोर्ट के लिए) */
+    [data-bs-theme="dark"] {
+      --bg-color: #141414;
+      --text-color: #ffffff;
+      --card-bg: #1f1f1f;
+      --border-color: #333333;
+    }
+    [data-bs-theme="light"] {
+      --bg-color: #f8f9fa;
+      --text-color: #141414;
+      --card-bg: #ffffff;
+      --border-color: #dee2e6;
+    }
+
+    body {
+      background-color: var(--bg-color) !important;
+      color: var(--text-color) !important;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, label, span {
+      color: var(--text-color);
+    }
+
+    .netflix-logo {
+      color: #E50914;
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    /* हिस्ट्री लिस्ट बॉक्स */
+    .history-card {
+      background-color: var(--card-bg) !important;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+    }
+
+    /* सिंगल हिस्ट्री आइटम रो */
+    .history-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.2s ease;
+    }
+
+    .history-item:last-child {
+      border-bottom: none;
+    }
+
+    .history-item:hover {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    [data-bs-theme="light"] .history-item:hover {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    /* थंबनेल पोस्टर इमेज */
+    .history-thumbnail {
+      width: 120px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    /* कस्टम प्रोग्रेस बार */
+    .progress {
+      height: 4px;
+      background-color: #444;
+    }
+    .progress-bar {
+      background-color: #E50914;
+    }
+
+    /* डिलीट बटन एक्शन */
+    .btn-remove {
+      color: #8c8c8c;
+      transition: color 0.2s ease, transform 0.2s ease;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+    }
+    .btn-remove:hover {
+      color: #E50914;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body class="d-flex flex-column justify-content-between">
+
+  <!-- Top Navbar -->
+  <header class="p-3 border-bottom border-dark" style="background-color: #000000;">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="#" class="netflix-logo">NETFLIX</a>
+      <a href="#" class="text-white text-decoration-none fs-5"><i class="bi bi-house-door"></i></a>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container py-5 px-3 flex-grow-1">
+    <div class="mx-auto" style="max-width: 850px;">
+      
+      <!-- Top Title Bar -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold m-0 fs-2"><i class="bi bi-clock-history text-danger me-2"></i>Watch History</h1>
+        <button class="btn btn-sm btn-outline-secondary fw-semibold px-3 py-2" onclick="clearAllHistory()">Clear All History</button>
+      </div>
+
+      <!-- History Card Box -->
+      <div class="card history-card shadow-sm" id="historyContainer">
+        
+        <!-- Item 1: Movie -->
+        <div class="history-item" id="item-1">
+          <img src="https://unsplash.com" alt="poster" class="history-thumbnail flex-shrink-0">
+          <div class="flex-grow-1">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-2">
+              <h6 class="mb-1 mb-sm-0 fw-bold fs-5">Stranger Things (Season 4: Ep 1)</h6>
+              <small class="text-secondary" style="font-size: 0.85rem;"><i class="bi bi-calendar3 me-1"></i>Today, 10:30 AM</small>
+            </div>
+            <p class="text-secondary mb-2 d-none d-sm-block" style="font-size: 0.9rem;">Chapter One: The Hellfire Club</p>
+            <!-- Watch Progress Bar -->
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress flex-grow-1">
+                <div class="progress-bar" style="width: 75%"></div>
+              </div>
+              <small class="text-secondary" style="font-size: 0.75rem;">75% watched</small>
+            </div>
+          </div>
+          <button class="btn-remove ms-2" onclick="removeHistoryItem('item-1')" title="Remove from history"><i class="bi bi-trash"></i></button>
+        </div>
+
+        <!-- Item 2: Another Movie -->
+        <div class="history-item" id="item-2">
+          <img src="https://unsplash.com" alt="poster" class="history-thumbnail flex-shrink-0">
+          <div class="flex-grow-1">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-2">
+              <h6 class="mb-1 mb-sm-0 fw-bold fs-5">The Gray Man</h6>
+              <small class="text-secondary" style="font-size: 0.85rem;"><i class="bi bi-calendar3 me-1"></i>Yesterday</small>
+            </div>
+            <p class="text-secondary mb-2 d-none d-sm-block" style="font-size: 0.9rem;">Movie • 2h 2m</p>
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress flex-grow-1">
+                <div class="progress-bar" style="width: 100%"></div>
+              </div>
+              <small class="text-secondary" style="font-size: 0.75rem;">Completed</small>
+            </div>
+          </div>
+          <button class="btn-remove ms-2" onclick="removeHistoryItem('item-2')" title="Remove from history"><i class="bi bi-trash"></i></button>
+        </div>
+
+        <!-- Item 3: Older Entry -->
+        <div class="history-item" id="item-3">
+          <img src="https://unsplash.com" alt="poster" class="history-thumbnail flex-shrink-0">
+          <div class="flex-grow-1">
+            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center mb-2">
+              <h6 class="mb-1 mb-sm-0 fw-bold fs-5">Wednesday (Season 1: Ep 8)</h6>
+              <small class="text-secondary" style="font-size: 0.85rem;"><i class="bi bi-calendar3 me-1"></i>04 July 2026</small>
+            </div>
+            <p class="text-secondary mb-2 d-none d-sm-block" style="font-size: 0.9rem;">A Murder of Woes</p>
+            <div class="d-flex align-items-center gap-2">
+              <div class="progress flex-grow-1">
+                <div class="progress-bar" style="width: 40%"></div>
+              </div>
+              <small class="text-secondary" style="font-size: 0.75rem;">40% watched</small>
+            </div>
+          </div>
+          <button class="btn-remove ms-2" onclick="removeHistoryItem('item-3')" title="Remove from history"><i class="bi bi-trash"></i></button>
+        </div>
+
+      </div>
+
+      <!-- Empty History State (शुरू में छुपा रहेगा) -->
+      <div id="emptyState" class="text-center py-5 d-none">
+        <i class="bi bi-film text-secondary" style="font-size: 4rem;"></i>
+        <h4 class="fw-bold mt-3">No watch history found</h4>
+        <p class="text-secondary">जब आप मूवी या शो देखना शुरू करेंगे, तो वे यहाँ दिखाई देंगे।</p>
+        <a href="#" class="btn btn-netflix mt-3 px-4 py-2" style="background-color: #E50914; color: white; border: none; font-weight: bold; text-decoration: none; border-radius: 4px;">Browse Content</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-secondary border-top border-dark" style="font-size: 0.8rem; background-color: #000000;">
+    © 2026 Netflix India Clone. All privileges reserved.
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Interactive JavaScript Logic -->
+  <script>
+    // थीम ऑटो-लोड करने के लिए
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem('site-theme') || 'dark';
+      document.getElementById('mainHtml').setAttribute('data-bs-theme', savedTheme);
+      checkEmptyState();
+    });
+
+    // सिंगल आइटम डिलीट करने का फ्रंटएंड फंक्शन
+    function removeHistoryItem(itemId) {
+      const item = document.getElementById(itemId);
+      if(item) {
+        item.style.opacity = '0';
+        item.style.transform = 'scale(0.95)';
+        item.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+          item.remove();
+          checkEmptyState();
+        }, 300);
+      }
+    }
+
+    // पूरी हिस्ट्री साफ करने का फंक्शन
+    function clearAllHistory() {
+      if(confirm("क्या आप सचमुच पूरी वॉच हिस्ट्री डिलीट करना चाहते हैं?")) {
+        const container = document.getElementById('historyContainer');
+        container.innerHTML = '';
+        checkEmptyState();
+      }
+    }
+
+    // अगर कोई आइटम न बचे तो खाली स्क्रीन दिखाने का लॉजिक
+    function checkEmptyState() {
+      const container = document.getElementById('historyContainer');
+      const emptyState = document.getElementById('emptyState');
+      
+      // अगर कंटेनर में कोई भी .history-item नहीं बचा है
+      if (container && container.querySelectorAll('.history-item').length === 0) {
+        container.classList.add('d-none');
+        emptyState.classList.remove('d-none');
+      }
+    }
+  </script>
+</body>
+</html>

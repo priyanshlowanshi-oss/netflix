@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix - Choose Your Plan</title>
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://jsdelivr.net" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://jsdelivr.net" rel="stylesheet">
+  
+  <style>
+    body {
+      background-color: #141414; /* नेटफ्लिक्स ब्लैक बैकग्राउंड */
+      color: #ffffff;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .netflix-logo {
+      color: #E50914;
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    /* मुख्य प्लान कार्ड्स की स्टाइलिंग */
+    .plan-card {
+      background-color: #1f1f1f;
+      border: 2px solid #333;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* माउस ले जाने पर (Hover) इफ़ेक्ट */
+    .plan-card:hover {
+      transform: translateY(-5px);
+      border-color: #555;
+    }
+
+    /* जब कोई प्लान सिलेक्टेड हो (Active) */
+    .plan-card.active {
+      border-color: #E50914 !important;
+      background-color: #262626;
+      box-shadow: 0 0 20px rgba(229, 9, 20, 0.2);
+    }
+
+    /* प्लान के हेडर बॉक्स का रंग (Mobile, Basic, Standard) */
+    .plan-header-mobile { background: linear-gradient(135deg, #1452ad, #2176ff); }
+    .plan-header-basic { background: linear-gradient(135deg, #4314ad, #7821ff); }
+    .plan-header-standard { background: linear-gradient(135deg, #ad1457, #ff217b); }
+
+    /* 'Most Popular' टैग */
+    .popular-tag {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #E50914;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: bold;
+      padding: 4px 12px;
+      border-radius: 0 0 8px 8px;
+      text-transform: uppercase;
+    }
+
+    /* टिक मार्क आइकॉन जो सिलेक्ट होने पर दिखेगा */
+    .select-check {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background-color: #E50914;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .plan-card.active .select-check {
+      display: flex;
+    }
+
+    /* नेटफ्लिक्स रेड बटन */
+    .btn-netflix {
+      background-color: #E50914;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 1.2rem;
+      padding: 14px;
+      border: none;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-netflix:hover {
+      background-color: #BF0912;
+      color: #ffffff;
+    }
+
+    /* लिस्ट डिटेल्स स्टाइल */
+    .spec-label {
+      color: #8c8c8c;
+      font-size: 0.85rem;
+      margin-bottom: 2px;
+    }
+    .spec-value {
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column justify-content-between">
+
+  <!-- Top Navbar -->
+  <header class="p-4 border-bottom border-dark" style="background-color: #000000;">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="#" class="netflix-logo">NETFLIX</a>
+      <a href="#" class="text-white text-decoration-none fw-bold" style="font-size: 0.95rem;">Sign Out</a>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container py-5 px-3 flex-grow-1">
+    <div class="text-center max-width-container mx-auto mb-5" style="max-width: 600px;">
+      <small class="text-secondary fw-semibold text-uppercase tracking-wider">Step 2 of 3</small>
+      <h1 class="fw-bold mt-2 mb-3">Choose the plan that's right for you</h1>
+      <p class="text-secondary fs-5">Can change or cancel your plan at any time.</p>
+    </div>
+
+    <!-- Django Form for Plans -->
+    <form method="POST" action="" id="planForm">
+      {% csrf_token %}
+      
+      <!-- छुपा हुआ इनपुट बॉक्स (यह चुने हुए प्लान का नाम Django बैकएंड में भेजेगा) -->
+      <input type="hidden" name="selected_plan" id="selectedPlanInput" value="Standard">
+
+      <!-- 3 Plans Grid Container -->
+      <div class="row g-4 justify-content-center mb-5">
+        
+        <!-- 1. Mobile Plan -->
+        <div class="col-lg-4 col-md-6">
+          <div class="plan-card p-4 h-100" onclick="selectPlan(this, 'Mobile')">
+            <div class="select-check"><i class="bi bi-check-lg"></i></div>
+            <div class="rounded-3 p-3 text-white mb-4 plan-header-mobile">
+              <h4 class="fw-bold mb-0">Mobile</h4>
+              <small class="opacity-75">480p</small>
+            </div>
+            <div>
+              <div class="spec-label">Monthly price</div>
+              <div class="spec-value">₹149</div>
+              
+              <div class="spec-label">Video and sound quality</div>
+              <div class="spec-value">Fair</div>
+              
+              <div class="spec-label">Resolution</div>
+              <div class="spec-value">480p</div>
+              
+              <div class="spec-label">Supported devices</div>
+              <div class="spec-value">Mobile phone, Tablet</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Basic Plan -->
+        <div class="col-lg-4 col-md-6">
+          <div class="plan-card p-4 h-100" onclick="selectPlan(this, 'Basic')">
+            <div class="select-check"><i class="bi bi-check-lg"></i></div>
+            <div class="rounded-3 p-3 text-white mb-4 plan-header-basic">
+              <h4 class="fw-bold mb-0">Basic</h4>
+              <small class="opacity-75">720p</small>
+            </div>
+            <div>
+              <div class="spec-label">Monthly price</div>
+              <div class="spec-value">₹199</div>
+              
+              <div class="spec-label">Video and sound quality</div>
+              <div class="spec-value">Good</div>
+              
+              <div class="spec-label">Resolution</div>
+              <div class="spec-value">720p (HD)</div>
+              
+              <div class="spec-label">Supported devices</div>
+              <div class="spec-value">TV, Computer, Mobile, Tablet</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Standard Plan (शुरू से ही एक्टिव/सिलेक्टेड रहेगा) -->
+        <div class="col-lg-4 col-md-6">
+          <div class="plan-card active p-4 h-100" onclick="selectPlan(this, 'Standard')">
+            <div class="popular-tag">Most Popular</div>
+            <div class="select-check"><i class="bi bi-check-lg"></i></div>
+            <div class="rounded-3 p-3 text-white mb-4 plan-header-standard">
+              <h4 class="fw-bold mb-0">Standard</h4>
+              <small class="opacity-75">1080p</small>
+            </div>
+            <div>
+              <div class="spec-label">Monthly price</div>
+              <div class="spec-value">₹499</div>
+              
+              <div class="spec-label">Video and sound quality</div>
+              <div class="spec-value">Great</div>
+              
+              <div class="spec-label">Resolution</div>
+              <div class="spec-value">1080p (Full HD)</div>
+              
+              <div class="spec-label">Supported devices</div>
+              <div class="spec-value">TV, Computer, Mobile, Tablet</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Next Button Container -->
+      <div class="text-center mx-auto" style="max-width: 450px;">
+        <button type="submit" class="btn btn-netflix w-100 py-3 shadow">Next</button>
+        <p class="text-secondary mt-4" style="font-size: 0.8rem; line-height: 1.5;">
+          HD (720p) and Full HD (1080p) availability subject to your internet service and device capabilities. Only people who live with you may use your account.
+        </p>
+      </div>
+
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-secondary border-top border-dark" style="font-size: 0.8rem; background-color: #000000;">
+    © 2026 Netflix India Clone. All privileges reserved.
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://jsdelivr.net"></script>
+
+  <!-- JavaScript For Selecting Plans Live -->
+  <script>
+    function selectPlan(cardElement, planName) {
+      // 1. सभी कार्ड्स से 'active' क्लास हटाएं
+      document.querySelectorAll('.plan-card').forEach(card => {
+        card.classList.remove('active');
+      });
+
+      // 2. जिस कार्ड पर क्लिक हुआ है उसे एक्टिव करें (रेड बॉर्डर और टिक मार्क आ जाएगा)
+      cardElement.classList.add('active');
+
+      // 3. छुपे हुए इनपुट डिब्बे में चुने हुए प्लान का नाम भरें ताकि Django बैकएंड समझ सके
+      document.getElementById('selectedPlanInput').value = planName;
+    }
+  </script>
+</body>
+</html>

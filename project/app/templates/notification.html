@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix - Notifications</title>
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">  
+  <style>
+    body {
+      background-color: #141414; /* नेटफ्लिक्स का सिग्नेचर डार्क कलर */
+      color: #ffffff;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+    }
+
+    .netflix-logo {
+      color: #E50914;
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    /* मुख्य कंटेनर बॉक्स */
+    .noti-container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #000000;
+      border: 1px solid #262626;
+      border-radius: 6px;
+      padding: 30px;
+    }
+
+    /* कस्टम टैब्स स्टाइलिंग */
+    .nav-tabs-custom .nav-link {
+      color: #808080;
+      border: none;
+      font-weight: bold;
+      font-size: 0.95rem;
+      padding: 10px 20px;
+    }
+
+    .nav-tabs-custom .nav-link:hover {
+      color: #ffffff;
+    }
+
+    .nav-tabs-custom .nav-link.active {
+      background-color: transparent;
+      color: #E50914;
+      border-bottom: 3px solid #E50914;
+    }
+
+    /* सिंगल नोटिफिकेशन रो (Row) */
+    .noti-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px;
+      border-bottom: 1px solid #222;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .noti-item:hover {
+      background-color: #181818;
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    /* अनरीड (बिना पढ़ा हुआ) नोटिफिकेशन */
+    .noti-item.unread {
+      background-color: rgba(229, 9, 20, 0.03);
+    }
+
+    .unread-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #E50914;
+      border-radius: 50%;
+    }
+
+    /* इमेज/पोस्टर थंबनेल */
+    .noti-thumbnail {
+      width: 100px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    .noti-icon-box {
+      width: 100px;
+      height: 60px;
+      background-color: #222;
+      border: 1px solid #333;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    /* बटन */
+    .btn-clear {
+      color: #808080;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .btn-clear:hover {
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navbar / Header -->
+  <header class="p-3 border-bottom border-dark" style="background-color: #000000;">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="#" class="netflix-logo">NETFLIX</a>
+      <!-- वापस होमपेज पर जाने का लिंक -->
+      <a href="{% url  'nav'%}" class="text-white text-decoration-none fs-5"><i class="bi bi-house-door"></i></a>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container px-3">
+    <div class="noti-container shadow-lg">
+      
+      <!-- Top Title Bar -->
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold m-0 fs-3">Notifications</h2>
+        <a href="#" class="btn-clear"><i class="bi bi-check2-all me-1"></i> Mark all as read</a>
+      </div>
+
+      <!-- Categories Navigation (Filter Tabs) -->
+      <ul class="nav nav-tabs nav-tabs-custom border-bottom border-secondary mb-4" id="notiTabs" role="tablist">
+        <li class="nav-item">
+          <button class="nav-link active" id="all-tab" data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab">All</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" id="unread-tab" data-bs-toggle="tab" data-bs-target="#unread" type="button" role="tab">Unread</button>
+        </li>
+        <li class="nav-item">
+          <button class="nav-link" id="offers-tab" data-bs-toggle="tab" data-bs-target="#offers" type="button" role="tab">Offers & Alerts</button>
+        </li>
+      </ul>
+
+      <!-- Tabs Content -->
+      <div class="tab-content" id="notiTabsContent">
+        
+        <!-- Tab 1: All Notifications -->
+        <div class="tab-pane fade show active" id="all" role="tabpanel">
+          
+          <!-- Item 1 (Unread Movie Release) -->
+          <a href="#" class="noti-item unread">
+            <img src="https://unsplash.com" alt="poster" class="noti-thumbnail">
+            <div class="flex-grow-1">
+              <h6 class="mb-1 fw-bold text-white">New Arrival: Stranger Things</h6>
+              <p class="text-secondary mb-0 style" style="font-size: 0.9rem;">The final showdown begins. Season 5 is now streaming worldwide.</p>
+              <small class="text-muted" style="font-size: 0.75rem;">10 minutes ago</small>
+            </div>
+            <div class="unread-dot"></div>
+          </a>
+
+          <!-- Item 2 (Trending Recommendation) -->
+          <a href="#" class="noti-item">
+            <img src="https://unsplash.com" alt="poster" class="noti-thumbnail">
+            <div class="flex-grow-1">
+              <h6 class="mb-1 fw-bold text-white">Trending Movie in India</h6>
+              <p class="text-secondary mb-0" style="font-size: 0.9rem;">Users like you are loving <span class="text-light fw-semibold">"The Gray Man"</span>. Watch it now.</p>
+              <small class="text-muted" style="font-size: 0.75rem;">5 hours ago</small>
+            </div>
+          </a>
+
+          <!-- Item 3 (System Account Alert) -->
+          <a href="#" class="noti-item">
+            <div class="noti-icon-box text-warning">
+              <i class="bi bi-credit-card-2-front"></i>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1 fw-bold text-white">Subscription Renewal Notice</h6>
+              <p class="text-secondary mb-0" style="font-size: 0.9rem;">Your Premium Plan automatically auto-renews in 3 days.</p>
+              <small class="text-muted" style="font-size: 0.75rem;">2 days ago</small>
+            </div>
+          </a>
+
+        </div>
+
+        <!-- Tab 2: Unread Notifications Only -->
+        <div class="tab-pane fade" id="unread" role="tabpanel">
+          <!-- केवल बिना पढ़े नोटिफिकेशन यहाँ दिखेंगे -->
+          <a href="#" class="noti-item unread">
+            <img src="https://unsplash.com" alt="poster" class="noti-thumbnail">
+            <div class="flex-grow-1">
+              <h6 class="mb-1 fw-bold text-white">New Arrival: Stranger Things</h6>
+              <p class="text-secondary mb-0" style="font-size: 0.9rem;">The final showdown begins. Season 5 is now streaming worldwide.</p>
+              <small class="text-muted" style="font-size: 0.75rem;">10 minutes ago</small>
+            </div>
+            <div class="unread-dot"></div>
+          </a>
+        </div>
+
+        <!-- Tab 3: Offers & Alerts -->
+        <div class="tab-pane fade" id="offers" role="tabpanel">
+          <!-- केवल ऑफर या अकाउंट अलर्ट्स -->
+          <a href="#" class="noti-item">
+            <div class="noti-icon-box text-warning">
+              <i class="bi bi-credit-card-2-front"></i>
+            </div>
+            <div class="flex-grow-1">
+              <h6 class="mb-1 fw-bold text-white">Subscription Renewal Notice</h6>
+              <p class="text-secondary mb-0" style="font-size: 0.9rem;">Your Premium Plan automatically auto-renews in 3 days.</p>
+              <small class="text-muted" style="font-size: 0.75rem;">2 days ago</small>
+            </div>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="p-4 text-center text-secondary border-top border-dark" style="font-size: 0.8rem; background-color: #000000; margin-top: auto;">
+    © 2026 Netflix India Clone. All privileges reserved.
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!-- 1. लोट्टी एनीमेशन की स्क्रिप्ट (इसे <head> में या <body> के अंत में डालें) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<!-- 2. एनीमेशन स्क्रीन का डिब्बा -->
+<div id="netflix-splash-screen">
+  <div id="lottie-netflix-player"></div>
+</div>
+
+<!-- 3. इसके लिए CSS (इसे अपने <style> टैग में जोड़ें) -->
+<style>
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: black;
+}
+#netflix-splash{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    z-index: 99999;
+}
+
+#netflix-intro{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;   /* Puri screen fill karega */
+    display: block;
+}
+
+.hide-splash{
+    opacity:0;
+    pointer-events:none;
+}
+</style>
+
+
+<!-- Netflix Splash Screen -->
+
+{% load static %}
+
+<video autoplay muted playsinline id="netflix-intro">
+    <source src="{% static 'videos/netflixlogo.mp4' %}" type="video/mp4">
+</video>
+
+
+
+
+<!-- 4. जावास्क्रिप्ट लॉजिक (इसे सबसे नीचे <script> टैग में डालें) -->
+<script>
+const video = document.getElementById("netflix-intro");
+
+video.addEventListener("ended", function () {
+    window.location.href = "{% url 'nav' %}";
+});
+
+
+
+window.addEventListener("load", function(){
+
+    const splash = document.getElementById("netflix-splash");
+
+    setTimeout(function(){
+
+        splash.classList.add("hide-splash");
+
+        setTimeout(function(){
+            splash.remove();
+        },600);
+
+    },1000);   // 1000ms = 1 second
+
+});
+</script>

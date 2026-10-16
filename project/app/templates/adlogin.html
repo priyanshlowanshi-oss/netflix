@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Portal Login</title>
+    <!-- Bootstrap and Icons Stylesheet (Matching Super Admin) -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <link href="https://jsdelivr.net" rel="stylesheet">
+</head>
+<body style="background-color: #141414; color: #ffffff; font-family: 'Segoe UI', sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center; background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9));">
+
+    <div class="card bg-dark text-white p-4 rounded-3 shadow-lg border border-secondary border-opacity-25" style="width: 100%; max-width: 420px; background-color: #000000 !important;">
+        
+        <!-- Netflix Brand Logo -->
+        <h2 class="text-danger fw-black text-center mb-4" style="font-weight: 900; letter-spacing: 2px; font-size: 2.5rem;">NETFLIX</h2>
+        
+        <h4 class="fw-bold mb-4 text-center"><i class="bi bi-shield-lock-fill text-danger me-2"></i>Sign In</h4>
+
+        <!-- Django Alerts for Login Errors -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger alert-dismissible fade show small py-2 border-0 bg-danger bg-opacity-25 text-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>{{ message }}
+                    <button type="button" class="btn-close btn-close-white small py-2" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Form elements connecting to your views.py -->
+        <form method="POST" action="">
+            {% csrf_token %} <!-- Essential Django Security Token -->
+            
+            <!-- Email Input -->
+            <div class="mb-3">
+                <label class="form-label text-muted small fw-bold">Company Email / Username</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-envelope-fill"></i></span>
+                    <!-- name="username" exactly maps your views.py requirement -->
+                    <input type="text" name="username" class="form-control bg-black text-white border-secondary shadow-none" placeholder="name@netflix.com" required>
+                </div>
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-4">
+                <label class="form-label text-muted small fw-bold">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-lock-fill"></i></span>
+                    <!-- name="password" exactly maps your views.py requirement -->
+                    <input type="password" name="password" class="form-control bg-black text-white border-secondary shadow-none" placeholder="••••••••" required>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-danger w-100 fw-bold py-2.5 fs-5 shadow-sm transition">
+               <a href="{% url 'aadmin' %}" class="btn btn-danger"><i class="bi bi-box-arrow-in-right me-2"></i>Sign In to Dashboard </a>
+            </button>
+        </form>
+
+        <!-- Footer Note matching Super Admin styling context -->
+        <div class="mt-4 pt-3 border-top border-secondary border-opacity-25 text-center">
+            <p class="text-muted small mb-0">Authorized Staff Access Only.</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle JS Component Link -->
+    <script src="https://jsdelivr.net"></script>
+</body>
+</html>

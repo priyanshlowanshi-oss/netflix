@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="hi" data-bs-theme="dark" id="mainHtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Netflix - Help Center</title>
+  <!-- Bootstrap 5 CSS CDN -->
+  <link href="https://jsdelivr.net" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://jsdelivr.net" rel="stylesheet">
+  
+  <style>
+    /* CSS Variables (थीम सपोर्ट के लिए) */
+    [data-bs-theme="dark"] {
+      --bg-color: #141414;
+      --text-color: #ffffff;
+      --card-bg: #1f1f1f;
+      --input-bg: #333333;
+      --border-color: #333333;
+    }
+    [data-bs-theme="light"] {
+      --bg-color: #f8f9fa;
+      --text-color: #141414;
+      --card-bg: #ffffff;
+      --input-bg: #ffffff;
+      --border-color: #dee2e6;
+    }
+
+    body {
+      background-color: var(--bg-color) !important;
+      color: var(--text-color) !important;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    h1, h2, h3, h4, h5, h6, p, label {
+      color: var(--text-color);
+    }
+
+    .netflix-logo {
+      color: #E50914;
+      font-size: 2.2rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+
+    /* हेल्प बॉक्स और फॉर्म कंटेनर */
+    .help-card {
+      background-color: var(--card-bg) !important;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 40px;
+    }
+
+    /* इनपुट बॉक्स स्टाइल */
+    .custom-input {
+      background-color: var(--input-bg) !important;
+      border: 1px solid var(--border-color) !important;
+      color: var(--text-color) !important;
+      padding: 12px;
+      border-radius: 4px;
+    }
+
+    .custom-input:focus {
+      border-color: #E50914 !important;
+      box-shadow: none !important;
+    }
+
+    /* एकॉर्डियन (FAQ) स्टाइल */
+    .accordion-button {
+      background-color: var(--card-bg) !important;
+      color: var(--text-color) !important;
+      font-weight: 600;
+    }
+    .accordion-button:not(.collapsed) {
+      color: #E50914 !important;
+      box-shadow: none !important;
+    }
+    .accordion-item {
+      background-color: var(--card-bg) !important;
+      border-color: var(--border-color) !important;
+    }
+
+    /* नेटफ्लिक्स बटन */
+    .btn-netflix {
+      background-color: #E50914;
+      color: #ffffff;
+      font-weight: bold;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      transition: background 0.2s ease;
+    }
+    .btn-netflix:hover {
+      background-color: #BF0912;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body class="d-flex flex-column justify-content-between">
+
+  <!-- Top Navbar -->
+  <header class="p-3 border-bottom border-dark" style="background-color: #000000;">
+    <div class="container d-flex justify-content-between align-items-center">
+      <a href="#" class="netflix-logo">NETFLIX</a>
+      <a href="#" class="text-white text-decoration-none fs-5"><i class="bi bi-house-door"></i></a>
+    </div>
+  </header>
+
+  <!-- Main Content Box -->
+  <main class="container py-5 px-3 flex-grow-1">
+    <div class="max-width-container mx-auto" style="max-width: 850px;">
+      
+      <h1 class="fw-bold mb-2 fs-2"><i class="bi bi-info-circle-fill text-danger me-2"></i>Help Center</h1>
+      <p class="text-secondary mb-5">हम आपकी सहायता के लिए हमेशा तैयार हैं। नीचे दिए गए सामान्य सवाल पढ़ें या हमें सीधे मेल भेजें।</p>
+
+      <div class="row g-5">
+        
+        <!-- Left Side: FAQs Section -->
+        <div class="col-lg-6">
+          <h4 class="fw-bold mb-3">Frequently Asked Questions</h4>
+          <div class="accordion accordion-flush" id="faqAccordion">
+            
+            <div class="accordion-item mb-2 rounded border">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                  How can I reset my password?
+                </button>
+              </h2>
+              <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary" style="font-size: 0.9rem;">
+                  आप अपने प्रोफाइल सेक्शन या लॉगआउट करके "Forgot Password" पर क्लिक करके अपना पासवर्ड ईमेल के ज़रिए बदल सकते हैं।
+                </div>
+              </div>
+            </div>
+
+            <div class="accordion-item mb-2 rounded border">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                  Can I change my subscription plan?
+                </button>
+              </h2>
+              <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div class="accordion-body text-secondary" style="font-size: 0.9rem;">
+                  हाँ, आप कभी भी "Subscription" सेक्शन में जाकर अपने प्लान को अपग्रेड या डाउनग्रेड कर सकते हैं।
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Side: Send Mail Form Section -->
+        <div class="col-lg-6">
+          <div class="help-card shadow-lg">
+            <h4 class="fw-bold mb-3"><i class="bi bi-envelope-paper-fill text-danger me-2"></i>Send Us a Mail</h4>
+            <p class="text-secondary" style="font-size: 0.85rem;">कोई समस्या या सुझाव है? हमें संदेश भेजें, हमारी टीम जल्द ही संपर्क करेगी।</p>
+            
+            <!-- Django Form -->
+            <form method="POST" action="">
+              {% csrf_token %}
+              
+              <!-- Subject Field -->
+              <div class="mb-3">
+                <label for="helpSubject" class="form-label fw-semibold" style="font-size: 0.9rem;">Subject / Issue</label>
+                <input type="text" class="form-control custom-input" id="helpSubject" name="subject" placeholder="e.g., Payment issue, Video lagging" required>
+              </div>
+
+              <!-- Message Textarea Field -->
+              <div class="mb-4">
+                <label for="helpMessage" class="form-label fw-semibold" style="font-size: 0.9rem;">Message</label>
+                <textarea class="form-control custom-input" id="helpMessage" name="message" rows="4" placeholder="Describe your problem in detail..." required></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-netflix w-100 fw-bold"><i class="bi bi-send-fill me-2"></i>Send Mail</button>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="p-4 text-center text-secondary border-top border-dark" style="font-size: 0.8rem; background-color: #000000;">
+    © 2026 Netflix India Clone. All privileges reserved.
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle CDN -->
+  <script src="https://jsdelivr.net"></script>
+
+  <!-- Theme Support Script -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem('site-theme') || 'dark';
+      document.getElementById('mainHtml').setAttribute('data-bs-theme', savedTheme);
+    });
+  </script>
+</body>
+</html>

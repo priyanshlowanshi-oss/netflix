@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix - Reset Password</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <style>
+        body { 
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://nflxext.com'); 
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .navbar-brand { 
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            color: #e50914 !important; 
+            font-weight: bold; 
+            font-size: 35px; 
+            text-decoration: none;
+        }
+
+        .reset-box {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 50px 60px;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .reset-box h1 { font-size: 2rem; font-weight: bold; margin-bottom: 15px; }
+        .reset-box p { color: #cbcbcb; font-size: 0.95rem; margin-bottom: 25px; line-height: 1.5; }
+
+        .form-label {
+            font-size: 0.9rem;
+            color: #cbcbcb;
+            margin-bottom: 8px;
+            font-weight: 500;
+            display: block;
+        }
+
+        .form-control {
+            background: #333;
+            border: none;
+            color: white;
+            height: 55px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+        }
+
+        .form-control:focus {
+            background: #454545;
+            color: white;
+            box-shadow: none;
+            border-bottom: 2px solid #e87c03;
+        }
+
+        .btn-netflix {
+            background-color: #e50914;
+            color: white;
+            font-weight: bold;
+            height: 50px;
+            width: 100%;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            border: none;
+        }
+
+        .btn-netflix:hover { background-color: #b20710; color: white; }
+
+        .back-to-login { 
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #b3b3b3;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+        .back-to-login:hover { color: white; text-decoration: underline; }
+
+        @media (max-width: 500px) {
+            .reset-box { padding: 30px; margin: 20px; }
+            .navbar-brand { left: 20px; font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a class="navbar-brand" href="/">NETFLIX</a>
+
+    <div class="reset-box">
+        <h1>Reset Password</h1>
+        <p>Please enter your registerd email, the OTP sent to you, and your new password.</p>
+        
+        <!-- Django Messages Support -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info p-2 small bg-dark border-secondary text-light">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            <!-- Django Active CSRF Token -->
+            {% csrf_token %}
+            
+            <!-- Email Input Field -->
+            <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" name="email" class="form-control" placeholder="name@example.com" required>
+            </div>
+
+            <!-- OTP Input Field -->
+            <div class="form-group">
+                <label class="form-label">Enter OTP</label>
+                <input type="text" name="otp" class="form-control" placeholder="6-digit OTP" max-length="6" required>
+            </div>
+
+            <!-- New Password Input Field -->
+            <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="password" name="new_password" class="form-control" placeholder="Enter new password" required>
+            </div>
+
+            <!-- Confirm New Password Input Field -->
+            <div class="form-group">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" name="confirm_password" class="form-control" placeholder="Re-enter new password" required>
+            </div>
+            
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-netflix">Reset Password</button>
+            
+            <!-- Back to Login Link -->
+            <a href="{% url 'login' %}" class="back-to-login">Back to login</a>
+        </form>
+    </div>
+
+</body>
+</html>

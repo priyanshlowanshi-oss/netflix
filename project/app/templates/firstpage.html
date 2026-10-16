@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Page</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+
+    {% load static %}
+
+    <link rel="icon" type="image/png" href="{% static 'images/avatar.png' %}">
+
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center vh-100">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6 col-lg-4">
+                
+                <!-- Main Card -->
+                <div class="card shadow p-4 rounded-4">
+                    <div class="card-body">
+                        <!-- Changed Header Text -->
+                        <h3 class="text-center mb-4 fw-bold text-primary">Enter Page</h3>
+                        
+                        <form>
+
+
+                              <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                                    <a href="{% url 'superadmin' %}" class="btn btn-outline-light btn-lg px-4">superadmin</a>
+                                    <a href="{% url 'adlogin' %}" class="btn btn-netflix btn-lg px-4">adlogin</a>
+                                    <a href="{% url 'user' %}" class="btn btn-netflix btn-lg px-4">user</a>
+
+                              </div>
+                           
+                       
+                           
+                            <!-- Divider line -->
+                            <div class="text-center my-3 text-muted small">or</div>
+                            
+                            <!-- Button 2: Google Login -->
+                            <div class="d-grid gap-2 mb-2">
+                                <button type="button" class="btn btn-outline-danger">Continue with Google</button>
+                            </div>
+                            
+                            <!-- Button 3: Apple Login -->
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-outline-dark">Continue with Apple</button>
+                            </div>
+                        </form>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle CDN -->
+    <script src="https://jsdelivr.net"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://jsdelivr.net" rel="stylesheet">
+    <style>
+        body { 
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://nflxext.com'); 
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        /* Netflix Logo Positioning */
+        .navbar-brand { 
+            position: absolute;
+            top: 20px;
+            left: 50px;
+            color: #e50914 !important; 
+            font-weight: bold; 
+            font-size: 40px; 
+            text-decoration: none;
+        }
+
+        /* Center Content Box */
+        .login-box {
+            background-color: rgba(234, 229, 229, 0.502); /* Dark transparent box */
+            padding: 60px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        .btn-outline-light {
+            background-color: #e50914;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            font-weight: bold;
+            transition: background 0.3s ease; /* Smooth transition */
+        }
+
+        .login-box h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons and Hover Effects */
+        .btn-netflix {
+            background-color: #e50914;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            font-weight: bold;
+            transition: background 0.3s ease; /* Smooth transition */
+        }
+
+        .btn-netflix:hover {
+            background-color: #b20710; /* Darker red on hover */
+            color: white;
+        }
+
+        .btn-outline-light:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo (Top Left) -->
+    <a class="navbar-brand" href="#">NETFLIX</a>
+
+    <!-- Main Content Box -->
+    <div class="login-box">
+        <h1 class="fw-bold">Unlimited movies, TV shows and more.</h1>
+        <p class="fs-5 mb-4">Watch anywhere. Cancel anytime.</p>
+        
+        <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+            <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4">Login</a>
+            <a href="{% url 'user' %}" class="btn btn-netflix btn-lg px-4">Sign Up</a>
+            <a href="{% url 'nav' %}" class="btn btn-netflix btn-lg px-4">nav</a>
+
+        </div>
+    </div>
+
+</body>
+</html>

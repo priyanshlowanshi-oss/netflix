@@ -1,0 +1,288 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+.movie-details-page {
+    background: #141414;
+    min-height: 100vh;
+    color: white;
+}
+
+/* Hero */
+
+.movie-hero {
+    min-height: 75vh;
+    position: relative;
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    align-items: center;
+}
+
+.movie-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to right,
+            rgba(0,0,0,0.95),
+            rgba(0,0,0,0.55),
+            rgba(0,0,0,0.15)
+        ),
+        linear-gradient(
+            to top,
+            #141414,
+            transparent 45%
+        );
+}
+
+.movie-info {
+    position: relative;
+    z-index: 2;
+
+    max-width: 650px;
+    padding-top: 80px;
+}
+
+.movie-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.movie-meta {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+
+    color: #ddd;
+    margin-bottom: 20px;
+}
+
+.movie-rating {
+    color: #f5c518;
+    font-weight: bold;
+}
+
+.movie-overview {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #ddd;
+}
+
+/* Buttons */
+
+.movie-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+}
+
+.btn-watch {
+    background: white;
+    color: black;
+
+    border: none;
+    border-radius: 5px;
+
+    padding: 12px 25px;
+    font-weight: 700;
+}
+
+.btn-mylist {
+    background: rgba(255,255,255,0.2);
+    color: white;
+
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 5px;
+
+    padding: 12px 25px;
+    font-weight: 600;
+}
+
+/* Bottom information */
+
+.movie-extra {
+    padding: 40px 0;
+}
+
+.genre-badge {
+    display: inline-block;
+
+    background: #333;
+    color: white;
+
+    padding: 7px 14px;
+    margin: 5px;
+
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .movie-hero {
+        min-height: 80vh;
+        align-items: flex-end;
+    }
+
+    .movie-info {
+        padding: 30px 15px;
+    }
+
+    .movie-title {
+        font-size: 2.2rem;
+    }
+
+    .movie-overview {
+        font-size: 0.95rem;
+    }
+
+}
+
+</style>
+
+
+<div class="movie-details-page">
+
+    {% if movie %}
+
+    <!-- HERO -->
+
+    <section
+        class="movie-hero"
+        style="
+        background-image:
+        url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+        "
+    >
+
+        <div class="movie-overlay"></div>
+
+        <div class="container">
+
+            <div class="movie-info">
+
+                <!-- TITLE -->
+
+                <h1 class="movie-title">
+                    {{ movie.title }}
+                </h1>
+
+
+                <!-- META -->
+
+                <div class="movie-meta">
+
+                    <span>
+                        {{ movie.release_date|slice:":4" }}
+                    </span>
+
+                    <span>
+                        {{ movie.runtime }} min
+                    </span>
+
+                    <span class="movie-rating">
+                        ⭐ {{ movie.vote_average|floatformat:1 }}
+                    </span>
+
+                </div>
+
+
+                <!-- OVERVIEW -->
+
+                <p class="movie-overview">
+                    {{ movie.overview }}
+                </p>
+
+
+                <!-- ACTIONS -->
+
+                <div class="movie-actions">
+
+                    <a
+                        href="#"
+                        class="btn-watch"
+                    >
+                        <i class="bi bi-play-fill"></i>
+                        Watch Now
+                    </a>
+
+
+                    <form
+                        method="POST"
+                        action="{% url 'add_to_mylist' movie.id %}"
+                    >
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn-mylist"
+                        >
+                            <i class="bi bi-plus-lg"></i>
+                            My List
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- EXTRA INFORMATION -->
+
+    <section class="movie-extra">
+
+        <div class="container">
+
+            <h4 class="mb-3">
+                Genres
+            </h4>
+
+            {% for genre in movie.genres %}
+
+                <span class="genre-badge">
+                    {{ genre.name }}
+                </span>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
+    {% else %}
+
+    <div class="container py-5">
+
+        <h2>
+            Movie not found
+        </h2>
+
+        <a href="{% url 'movies' %}">
+            Back to Movies
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

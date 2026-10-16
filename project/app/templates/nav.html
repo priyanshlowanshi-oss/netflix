@@ -1,0 +1,1064 @@
+{% load static %}
+
+
+<html lang="hi" data-bs-theme="dark" id="mainHtml">
+
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" rel="stylesheet">
+
+<style>
+  /* इमेज के अनुसार बैकग्राउंड को डार्क रखने के लिए */
+  body {
+    background-color: #141414;
+    color: #fff;
+  }
+  /* एक्टिव और होवर लिंक्स का रंग */
+  .navbar-dark .navbar-nav .nav-link {
+    color: #e5e5e5;
+    font-size: 0.85rem;
+    transition: color 0.3s;
+  }
+  .navbar-dark .navbar-nav .nav-link:hover,
+  .navbar-dark .navbar-nav .nav-link.active {
+    color: #fff;
+  }
+  .navbar-brand {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+
+
+  /* बैनर का मुख्य कंटेनर */
+.hero-banner-wrapper {
+  height: 70vh; /* स्क्रीन की 70% ऊंचाई घेरेगा */
+  min-height: 450px;
+  background-size: cover;
+  background-position: center top;
+  position: relative;
+  display: flex;
+  align-items: flex-end; /* टेक्स्ट और बटन को नीचे सेट करने के लिए */
+  padding-bottom: 80px;
+}
+
+/* मूवी नाम और बटन्स का कंटेनर */
+.carousel-caption-custom {
+  position: absolute;
+  left: 5%;
+  bottom: 15%;
+  z-index: 5;
+  text-align: left;
+}
+
+.movie-title {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* इमेज के अनुसार 'Watch' बटन स्टाइल */
+.btn-watch {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 8px 24px;
+  font-weight: bold;
+  border-radius: 4px;
+  backdrop-filter: blur(5px);
+  transition: all 0.2s;
+}
+.btn-watch:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+/* इमेज के अनुसार 'BUY PLAN' बटन स्टाइल */
+.btn-buy-plan {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  padding: 8px 24px;
+  font-weight: bold;
+  border-radius: 4px;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
+}
+.btn-buy-plan:hover {
+  background-color: #e50914;
+  color: #fff;
+}
+
+/* बूटस्ट्रैप के डिफॉल्ट एरो की पोजीशन सेट करने के लिए */
+.carousel-control-prev, .carousel-control-next {
+  width: 5%;
+}
+
+
+
+
+
+/* मुख्य स्लाइडर ट्रैक जो इमेजेस को हॉरिजॉन्टल लाइन में रखेगा */
+.slider-container-wrapper {
+  position: relative;
+}
+
+.movie-cards-track {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+}
+
+
+
+
+.movie-card {
+    flex: 0 0 220px;
+    width: 220px;
+    height: 330px;
+}
+
+.movie-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.movie-cards-track::-webkit-scrollbar {
+  display: none; /* क्रोम और सफारी के लिए स्क्रॉलबार छुपाएं */
+}
+
+/* वर्टिकल पोस्टर्स का साइज और अनुपात (इमेज के अनुसार 2:3) */
+.movie-poster-card {
+  flex: 0 0 calc(100% / 2 - 12px); /* मोबाइल पर एक बार में 2 कार्ड */
+  scroll-snap-align: start;
+}
+
+/* बड़े स्क्रीन्स के लिए रिस्पॉन्सिव साइजिंग (एक बार में 6 कार्ड्स) */
+@media (min-width: 576px) { .movie-poster-card { flex: 0 0 calc(100% / 3 - 12px); } }
+@media (min-width: 768px) { .movie-poster-card { flex: 0 0 calc(100% / 4 - 12px); } }
+@media (min-width: 992px) { .movie-poster-card { flex: 0 0 calc(100% / 5 - 12px); } }
+@media (min-width: 1200px) { .movie-poster-card { flex: 0 0 calc(100% / 6 - 13px); } }
+
+.poster-inner {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  aspect-ratio: 2 / 3; /* परफेक्ट वर्टिकल पोस्टर अनुपात */
+  background-color: #262626;
+}
+
+.poster-inner:hover {
+  transform: scale(1.05);
+}
+
+.poster-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* इमेज के ऊपर दिखने वाले पीले और काले टैग्स */
+.badge-tag {
+  position: absolute;
+  top: 0;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-bottom-left-radius: 4px;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.yellow-tag {
+  right: 15%;
+  background-color: #ffcc00;
+  color: #000;
+}
+
+.dark-tag {
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* लेफ्ट और राइट एरो बटन्स (होवर करने पर ही दिखाई देंगे) */
+.slide-control-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  padding: 15px 10px;
+  z-index: 10;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s, background-color 0.2s;
+  height: 70%;
+  display: flex;
+  align-items: center;
+}
+
+.slider-container-wrapper:hover .slide-control-btn {
+  opacity: 1;
+}
+
+.slide-control-btn:hover {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+.prev-btn { left: -15px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+.next-btn { right: -15px; border-top-left-radius: 4px; border-bottom-left-radius: 4px; }
+
+
+
+
+
+
+
+
+  .netflix-footer {
+    background-color: #141414; /* नेटफ्लिक्स ब्लैक बैकग्राउंड */
+    color: #808080; /* ग्रे टेक्स्ट कलर */
+    font-size: 0.8rem;
+    padding-top: 50px;
+    padding-bottom: 40px;
+  }
+  /* सोशल मीडिया आइकॉन्स */
+  .footer-social-icons a {
+    color: #808080;
+    font-size: 1.5rem;
+    margin-right: 25px;
+    transition: color 0.2s;
+  }
+  .footer-social-icons a:hover {
+    color: #fff;
+  }
+  /* फुटर लिंक्स */
+  .footer-links a {
+    color: #808080;
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .footer-links a:hover {
+    text-decoration: underline;
+  }
+
+    /* कॉपीराइट टेक्स्ट स्टाइल (इमेज के अनुसार म्यूटेड और सेंटर में) */
+  .footer-copyright {
+    font-size: 0.75rem;
+    color: #555555;
+    letter-spacing: 0.5px;
+  }
+
+
+
+  #search-overlay {
+  top: -100px; /* शुरू में ऊपर छिपा रहेगा */
+  transition: top 0.4s ease-in-out; /* स्मूथ स्लाइड एनिमेशन */
+}
+
+/* जब यह क्लास एक्टिव होगी तो सर्च बार नीचे आ जाएगा */
+#search-overlay.active {
+  top: 70px; /* आपके नेविगेशन बार की हाइट के हिसाब से इसे बदलें */
+}
+
+
+
+
+
+
+/* बूटस्ट्रैप के डिफ़ॉल्ट सफ़ेद बैकग्राउंड को डार्क करने के लिए */
+.custom-dropdown-menu .dropdown-item {
+  transition: all 0.2s ease-in-out;
+  font-size: 0.9rem;
+}
+
+/* लिस्ट आइटम पर होवर (Hover) इफ़ेक्ट */
+.custom-dropdown-menu .dropdown-item:hover {
+  background-color: #212529 !important; /* डार्क ग्रे कलर */
+  color: #ffffff !important;
+  padding-left: 1rem !important; /* हल्का सा आगे खिसकने का इफ़ेक्ट */
+}
+
+/* लॉगआउट पर रेड होवर इफ़ेक्ट */
+.custom-dropdown-menu .dropdown-item.text-danger:hover {
+  background-color: rgba(220, 53, 69, 0.15) !important;
+  color: #dc3545 !important;
+}
+
+/* बूटस्ट्रैप का डिफ़ॉल्ट छोटा तीर (arrow) हटाने के लिए (यदि आप नहीं चाहते) */
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+
+
+/* 1. डिफ़ॉल्ट डार्क थीम के लिए रंग */
+[data-bs-theme="dark"] {
+  --bg-color: #141414;
+  --text-color: #ffffff;
+  --card-bg: #1f1f1f;
+  --text-muted: #8c8c8c;
+}
+
+/* 2. लाइट थीम के लिए रंग */
+[data-bs-theme="light"] {
+  --bg-color: #f8f9fa; /* हल्का सफ़ेद */
+  --text-color: #141414; /* डार्क ब्लैक टेक्स्ट */
+  --card-bg: #ffffff; /* शुद्ध सफ़ेद कार्ड */
+  --text-muted: #6c757d;
+}
+
+/* 3. पूरी वेबसाइट की बॉडी पर इसे लागू करें */
+body {
+  background-color: var(--bg-color) !important;
+  color: var(--text-color) !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* अगर आपने कहीं पर भी पैराग्राफ या हेडिंग्स का रंग मैन्युअल सफेद किया था, तो उन्हें हटाकर यह लिख दें */
+h1, h2, h3, h4, h5, h6, p, span, label {
+  color: var(--text-color);
+}
+
+/* कार्ड्स या डिब्बों के बैकग्राउंड के लिए */
+.otp-card, .plan-card, .custom-dropdown-menu {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+
+
+
+
+
+
+  .movie-cards-track::-webkit-scrollbar {
+    display: none; /* स्क्रॉल बार छुपाएं ताकि नेटफ्लिक्स जैसा लुक आए */
+  }
+  .movie-cards-track {
+    -ms-overflow-style: none;  /* IE और Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .movie-poster-card:hover {
+    transform: scale(1.05); /* होवर करने पर कार्ड थोड़ा बड़ा होगा */
+    z-index: 10;
+  }
+  .slide-control-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.6);
+    border: none;
+    color: white;
+    padding: 15px 10px;
+    z-index: 11;
+    cursor: pointer;
+  }
+  .prev-btn { left: 0; }
+  .next-btn { right: 0; }
+
+
+  
+
+
+
+
+
+
+
+
+  .search-box {
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 350px;
+    background: #141414;
+    padding: 15px;
+    border-radius: 8px;
+
+    display: none;
+    z-index: 9999;
+}
+
+.search-box.active {
+    display: block;
+}
+
+.search-box form {
+    display: flex;
+    align-items: center;
+}
+
+.search-box input {
+    flex: 1;
+    background: #222;
+    border: 1px solid #555;
+    color: white;
+    padding: 10px 12px;
+    outline: none;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-box button {
+    background: #e50914;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 0 5px 5px 0;
+}
+
+
+
+</style>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-transparent px-md-5 py-3">
+  <div class="container-fluid">
+    <!-- नेटफ्लिक्स लोगो -->
+    <a class="navbar-brand text-danger fw-bold fs-2 me-4" href="{% url 'nlogo' %}" style="letter-spacing: -1px;">NETFLIX</a>
+
+    <!-- मोबाइल के लिए टॉगल बटन -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- बीच के लिंक्स (इमेज के अनुसार नाम) -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+        <li class="nav-item"><a class="nav-link active" href="{% url 'nav'%}">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'tvshows'%}">TV Shows</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'movies'%}">Movies</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'newpopular'%}">New & Popular</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'mylist'%}">My list</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'browselanguage'%}">Browse by Language</a></li>
+
+      </ul>
+
+      <!-- दाईं ओर के आइकॉन और अकाउंट लिंक (इमेज के अनुसार) -->
+      <div class="d-flex align-items-center gap-4 text-white">
+        <!-- सर्च आइकॉन -->
+<div id="search-box" class="search-box">
+    <form action="{% url 'search_movies' %}" method="GET">
+        <input
+            type="text"
+            name="q"
+            placeholder="Search movies..."
+            autocomplete="off"
+            required
+        >
+
+        <button type="submit">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
+</div>
+        <!-- नोटिफिकेशन बेल आइकॉन -->
+        <a href="{% url 'notification' %}" class="text-white text-decoration-none fs-5"><i class="bi bi-bell-fill"></i></a>
+        
+        <!-- अकाउंट टेक्स्ट -->
+        <!-- Account Dropdown Start -->
+<div class="dropdown d-inline-block">
+  <!-- पुराना Account लिंक अब एक बटन की तरह काम करेगा -->
+  <a href="#" class="text-white text-decoration-none d-flex align-items-center gap-2 dropdown-toggle" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 0.9rem; cursor: pointer;">
+    <!-- कार्टून अवतार (Dicebear API से) -->
+    <img src="{% static 'images/avatar.png' %}" alt="User Avatar"
+     class="rounded-circle"
+     style="width:40px;height:40px;">
+    Account
+  </a>
+
+  <!-- ड्रॉपडाउन लिस्ट जो क्लिक करने पर नीचे खुलेगी -->
+  <ul class="dropdown-menu dropdown-menu-end bg-black border border-secondary shadow-lg py-3 px-2 custom-dropdown-menu" aria-labelledby="accountDropdown" style="min-width: 240px; margin-top: 10px;">
+    
+    <!-- यूजर का नाम और कार्टून ऊपर देखने के लिए -->
+    <li class="px-3 pb-3 mb-2 border-bottom border-secondary d-flex align-items-center gap-3">
+      <img src="{% static 'images/avatar.png' %}" alt="Avatar"
+     class="rounded-circle border border-1 border-secondary"
+     style="width:28px;height:28px;object-fit:cover;">
+      <div>
+        <h6 class="text-white mb-0 fw-bold" style="font-size: 0.95rem;">Rahul Sharma</h6>
+        <small class="text-secondary" style="font-size: 0.8rem;">Premium Member</small>
+      </div>
+    </li>
+
+    <!-- सेटिंग्स लिस्ट -->
+    <li><a class="dropdown-item text-light py-2 rounded d-flex align-items-center gap-2" href="{% url 'profile'%}">👤 1. Profile</a></li>
+    <li><a class="dropdown-item text-light py-2 rounded d-flex align-items-center gap-2" href="{% url 'Subscription' %}">💳 5. Subscription</a></li>
+    <li><a class="dropdown-item text-light py-2 rounded d-flex align-items-center gap-2" href="{% url 'history' %}">📜 6. Watch History</a></li>
+   <!-- Language Link (इसके क्लिक पर ट्रांसलेट एक्टिव होगा) -->
+<li>
+  <a class="dropdown-item text-light py-2 rounded d-flex align-items-center gap-2" href="#" onclick="changeLanguage('hi'); return false;">
+    🌐 7. Language (Hindi)
+  </a>
+</li>
+
+
+
+<!-- छुपा हुआ गूगल ट्रांसलेट का डिब्बा (यह बैकग्राउंड में रहेगा) -->
+<div id="google_translate_element" style="display: none;"></div>
+
+    <li>
+  <a class="dropdown-item text-light py-2 rounded d-flex align-items-center justify-content-between" href="#" onclick="toggleTheme(); return false;">
+    <span>🎨 8. Theme</span>
+    <!-- यह छोटा सा टेक्स्ट बताएगा कि अभी कौन सी थीम एक्टिव है -->
+    <small id="themeLabel" class="text-secondary" style="font-size: 0.75rem;">Dark</small>
+  </a>
+</li>
+    <li><a class="dropdown-item text-light py-2 rounded d-flex align-items-center gap-2" href="{% url 'help'%}">📞 10. Help & Support</a></li>
+    <li><a class="dropdown-item text-light py-2 rounded d-flex align-items-center gap-2" href="{% url 'setting'%}">⚙️ 11. Settings</a></li>
+    
+    <!-- डिवाइडर लाइन -->
+    <li><hr class="dropdown-divider border-secondary my-2"></li>
+    
+    <!-- लॉगआउट बटन -->
+    <li><a class="dropdown-item text-danger py-2 rounded d-flex align-items-center gap-2 fw-bold" href="{% url 'login'%}">🚪 12. Logout</a></li>
+  </ul>
+</div>
+<!-- Account Dropdown End -->
+
+
+       
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+<!-- Slide-down Search Bar Panel -->
+<div id="search-overlay" class="bg-dark text-white w-100 position-absolute start-0 py-3 px-4 shadow toggle-search-panel z-2">
+  <div class="d-flex align-items-center justify-content-between max-width-container mx-auto">
+    <div class="d-flex align-items-center w-100 me-4">
+      <i class="bi bi-search fs-5 text-secondary me-3"></i>
+      <input type="text" class="form-control bg-transparent text-white border-0 fs-5 shadow-none p-0" placeholder="Search movies, shows...">
+    </div>
+    <button id="close-overlay" class="btn text-white fs-4 p-0 border-0">✕</button>
+  </div>
+</div>
+
+
+
+
+<!-- Hero Carousel / Banner Slider -->
+<div id="heroMovieCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+  
+  <div class="carousel-inner">
+    
+    <!-- TMDB की टॉप 3 ट्रेंडिंग मूवीज को बैनर में दिखाने के लिए लूप -->
+    {% for movie in trending_movies|slice:":3" %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      <!-- TMDB से बैकड्रॉप इमेज (बड़ा वॉलपेपर) निकालना -->
+      <div class="hero-banner-wrapper" style="background-image: linear-gradient(to bottom, rgba(20,20,20,0.1), rgba(20,20,20,0.95)), url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}'); background-size: cover; background-position: center; height: 70vh; position: relative;">
+        
+        <div class="carousel-caption-custom" style="position: absolute; bottom: 15%; left: 5%; z-index: 10;">
+          <!-- मूवी या शो का डायनेमिक नाम -->
+          <h1 class="movie-title text-white fw-bold display-3">{% if movie.title %}
+              {{ movie.title }}
+          {% else %}
+              {{ movie.name }}
+          {% endif %}</h1>
+          
+          <!-- बटन्स -->
+          <div class="banner-buttons mt-4">
+            <button class="btn btn-light btn-lg me-2 px-4 py-2 fw-bold text-black"><i class="bi bi-play-fill me-1"></i> Watch</button>
+            <a href="{% url 'Subscription' %}" style="text-decoration: none;">
+              <button class="btn btn-danger btn-lg px-4 py-2 fw-bold"><i class="bi bi-crown-fill me-1"></i> BUY PLAN</button>
+            </a>         
+          </div>
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <!-- लेफ्ट (Prev) बटन -->
+  <button class="carousel-control-prev" type="button" data-bs-target="#heroMovieCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+
+  <!-- राइट (Next) बटन -->
+  <button class="carousel-control-next" type="button" data-bs-target="#heroMovieCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+</div>
+
+
+
+
+<!-- TV Shows Slider Section -->
+<main class="flex-grow-1 movie-slider-section py-4" style="background-color: #141414;">
+  <div class="container-fluid px-md-5 position-relative group">
+
+    <!-- Section Heading -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="text-white fw-bold m-0" style="font-size: 1.4rem;">TV Shows</h2>
+    </div>
+
+    <!-- Slider Wrapper -->
+    <div class="slider-container-wrapper position-relative">
+
+      <!-- Left Arrow -->
+      <button class="slide-control-btn prev-btn" onclick="scrollSlider('curated-slider', -1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <!-- Cards -->
+      <div class="movie-cards-track" id="curated-slider"
+           style="display:flex;gap:15px;overflow-x:auto;scroll-behavior:smooth;">
+
+        {% for show in tv_shows %}
+
+        <a href="{% url 'movie_details' show.id %}" class="text-decoration-none">
+
+          <div class="movie-poster-card"
+               style="min-width:180px;flex-shrink:0;transition:transform .2s;cursor:pointer;">
+
+            <div class="poster-inner position-relative">
+
+              {% if show.vote_average > 7.5 %}
+              <span class="badge-tag yellow-tag position-absolute top-0 start-0 m-2 bg-warning text-black px-2 py-1 rounded fw-bold"
+                    style="font-size:0.7rem;z-index:5;">
+                New Episode
+              </span>
+              {% endif %}
+
+              <img src="https://image.tmdb.org/t/p/w500{{ show.poster_path }}"
+                   alt="{{ show.name }}"
+                   class="img-fluid rounded w-100"
+                   style="object-fit:cover;aspect-ratio:2/3;">
+
+            </div>
+
+          </div>
+
+        </a>
+
+        {% empty %}
+        <p class="text-secondary px-3">No TV Shows available right now.</p>
+        {% endfor %}
+
+      </div>
+
+      <!-- Right Arrow -->
+      <button class="slide-control-btn next-btn" onclick="scrollSlider('curated-slider', 1)">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+    </div>
+
+  </div>
+</main>
+
+
+
+
+<!-- ================= 2. MOVIES SECTION (स्लाइडर) ================= -->
+<section class="movie-slider-section py-4" style="background-color: #141414;">
+  <div class="container-fluid px-md-5 position-relative group">
+    
+    <!-- सेक्शन का हेडर -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="text-white fw-bold m-0" style="font-size: 1.4rem; letter-spacing: 0.5px;">Movies</h2>
+    </div>
+
+    <!-- मुख्य स्लाइडर रैपर -->
+    <div class="slider-container-wrapper position-relative">
+      
+      <!-- लेफ्ट एरो बटन (यहाँ id बदल कर 'movies-slider' किया है) -->
+      <button class="slide-control-btn prev-btn" onclick="scrollSlider('movies-slider', -1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <!-- मूवी कार्ड्स का ट्रैक -->
+      <div class="movie-cards-track" id="movies-slider" style="display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;">
+        
+        <!-- views.py से आ रहे popular_movies का लूप -->
+        {% for movie in popular_movies %}
+        <div class="movie-poster-card" style="min-width: 180px; flex-shrink: 0; transition: transform 0.2s; cursor: pointer;">
+          <div class="poster-inner position-relative">
+            
+            <!-- अगर फिल्म बहुत पॉपुलर है तो FREE या HIT का टैग दे सकते हैं -->
+            {% if movie.vote_average > 8.0 %}
+              <span class="badge-tag dark-tag position-absolute top-0 start-0 m-2 bg-dark text-white border border-secondary px-2 py-1 rounded fw-bold" style="font-size: 0.7rem; z-index: 5;">FREE</span>
+            {% endif %}
+            
+            <!-- असली TMDB मूवी का पोस्टर (फिल्मों के लिए movie.title होता है) -->
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="img-fluid rounded w-100" style="object-fit: cover; aspect-ratio: 2/3;">
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-secondary px-3">No Movies available right now.</p>
+        {% endfor %}
+
+      </div>
+
+      <!-- राइट एरो बटन -->
+      <button class="slide-control-btn next-btn" onclick="scrollSlider('movies-slider', 1)">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+      
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= 3. NEW & POPULAR SECTION (स्लाइडर) ================= -->
+<section class="movie-slider-section py-4" style="background-color: #141414;">
+  <div class="container-fluid px-md-5 position-relative group">
+    
+    <!-- सेक्शन का हेडर -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="text-white fw-bold m-0" style="font-size: 1.4rem; letter-spacing: 0.5px;">New & Upcoming Releases</h2>
+    </div>
+
+    <!-- मुख्य स्लाइडर रैपर -->
+    <div class="slider-container-wrapper position-relative">
+      
+      <!-- लेफ्ट एरो बटन (यहाँ id बदल कर 'new-slider' किया है) -->
+      <button class="slide-control-btn prev-btn" onclick="scrollSlider('new-slider', -1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <!-- मूवी कार्ड्स का ट्रैक -->
+      <div class="movie-cards-track" id="new-slider" style="display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;">
+        
+        <!-- views.py से आ रहे upcoming_movies का लूप -->
+        {% for movie in upcoming_movies %}
+        <div class="movie-poster-card" style="min-width: 180px; flex-shrink: 0; transition: transform 0.2s; cursor: pointer;">
+          <div class="poster-inner position-relative">
+            
+            <!-- आने वाली फिल्मों के लिए 'Trending' टैग -->
+            <span class="badge-tag yellow-tag position-absolute top-0 start-0 m-2 bg-warning text-black px-2 py-1 rounded fw-bold" style="font-size: 0.7rem; z-index: 5;">Trending</span>
+            
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="img-fluid rounded w-100" style="object-fit: cover; aspect-ratio: 2/3;">
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-secondary px-3">No Upcoming Movies found.</p>
+        {% endfor %}
+
+      </div>
+
+      <!-- राइट एरो बटन -->
+      <button class="slide-control-btn next-btn" onclick="scrollSlider('new-slider', 1)">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ================= 4. MY LIST SECTION (स्लाइडर) ================= -->
+<section class="movie-slider-section py-4" style="background-color: #141414;">
+  <div class="container-fluid px-md-5 position-relative group">
+    
+    <!-- सेक्शन हेडर -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="text-white fw-bold m-0" style="font-size: 1.4rem; letter-spacing: 0.5px;">My List</h2>
+    </div>
+
+    <!-- मुख्य स्लाइडर रैपर -->
+    <div class="slider-container-wrapper position-relative">
+      
+      <!-- लेफ्ट एरो बटन (id='mylist-slider') -->
+      <button class="slide-control-btn prev-btn" onclick="scrollSlider('mylist-slider', -1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <!-- मूवी कार्ड्स का ट्रैक -->
+      <div class="movie-cards-track" id="mylist-slider" style="display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;">
+        
+        {% for movie in my_list_movies %}
+        <div class="movie-poster-card" style="min-width: 180px; flex-shrink: 0; transition: transform 0.2s; cursor: pointer;">
+          <div class="poster-inner position-relative">
+            <!-- वॉचलिस्ट के लिए एक छोटा सा रिमूव या बुकमार्क आइकन ऊपर दिखा सकते हैं -->
+            <span class="position-absolute top-0 end-0 m-2 bg-black bg-opacity-70 text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 28px; height: 28px; z-index: 5; border: 1px solid rgba(255,255,255,0.3);">
+              <i class="bi bi-check-lg"></i>
+            </span>
+            <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="img-fluid rounded w-100" style="object-fit: cover; aspect-ratio: 2/3;">
+          </div>
+        </div>
+        {% empty %}
+        <div class="w-100 text-center py-4">
+          <p class="text-secondary mb-0">Your list is empty. Add movies to watch them later!</p>
+        </div>
+        {% endfor %}
+
+      </div>
+
+      <!-- राइट एरो बटन -->
+      <button class="slide-control-btn next-btn" onclick="scrollSlider('mylist-slider', 1)">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================= 5. BROWSE BY LANGUAGE SECTION (स्लाइडर) ================= -->
+<section class="movie-slider-section py-4" style="background-color: #141414;">
+  <div class="container-fluid px-md-5 position-relative group">
+    
+    <!-- सेक्शन हेडर -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2 class="text-white fw-bold m-0" style="font-size: 1.4rem; letter-spacing: 0.5px;">Browse by Language: Hindi</h2>
+    </div>
+
+    <!-- मुख्य स्लाइडर रैपर -->
+    <div class="slider-container-wrapper position-relative">
+      
+      <!-- लेफ्ट एरो बटन (id='lang-slider') -->
+      <button class="slide-control-btn prev-btn" onclick="scrollSlider('lang-slider', -1)">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <!-- मूवी कार्ड्स का ट्रैक -->
+      <div class="movie-cards-track" id="lang-slider" style="display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth;">
+        
+        {% for movie in hindi_movies %}
+        <div class="movie-poster-card" style="min-width: 180px; flex-shrink: 0; transition: transform 0.2s; cursor: pointer;">
+          <div class="poster-inner position-relative">
+            <!-- भारतीय फिल्मों के लिए एक छोटा देसी टैग -->
+            <span class="badge-tag yellow-tag position-absolute top-0 start-0 m-2 bg-danger text-white px-2 py-1 rounded fw-bold" style="font-size: 0.65rem; z-index: 5;">Trending Hindi</span>
+            
+           <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="img-fluid rounded w-100" style="object-fit: cover; aspect-ratio: 2/3;">
+          </div>
+        </div>
+        {% empty %}
+        <p class="text-secondary px-3">No Indian regional movies found.</p>
+        {% endfor %}
+
+      </div>
+
+      <!-- राइट एरो बटन -->
+      <button class="slide-control-btn next-btn" onclick="scrollSlider('lang-slider', 1)">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<footer class="netflix-footer">
+  <div class="container-fluid px-md-5">
+    
+    <!-- सोशल मीडिया आइकॉन्स (इमेज के अनुसार) -->
+    <div class="footer-social-icons mb-4 ps-2">
+      <a href="#"><i class="bi bi-facebook"></i></a>
+      <a href="#"><i class="bi bi-instagram"></i></a>
+      <a href="#"><i class="bi bi-twitter-x"></i></a> <!-- नए Twitter/X आइकॉन के लिए -->
+      <a href="#"><i class="bi bi-youtube"></i></a>
+    </div>
+
+    <!-- फुटर लिंक्स ग्रिड (4 कॉलम्स) -->
+    <div class="row footer-links g-3 ps-2">
+      <!-- कॉलम 1 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Audio and Subtitles</a>
+        <a href="#" class="d-block">Media Center</a>
+        <a href="#" class="d-block">Privacy</a>
+      </div>
+      
+      <!-- कॉलम 2 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Audio Description</a>
+        <a href="#" class="d-block">Investor Relations</a>
+        <a href="#" class="d-block">Legal Notices</a>
+      </div>
+      
+      <!-- कॉलम 3 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Help Center</a>
+        <a href="#" class="d-block">Jobs</a>
+        <a href="#" class="d-block">Corporate Information</a>
+      </div>
+      
+      <!-- कॉलम 4 -->
+      <div class="col-6 col-sm-6 col-md-3">
+        <a href="#" class="d-block">Gift Cards</a>
+        <a href="#" class="d-block">Terms of Use</a>
+        <a href="#" class="d-block">Contact Us</a>
+      </div>
+    </div>
+
+     <div class="text-center footer-copyright mt-4">
+      <p class="mb-1">&copy; 1997-2026 Netflix, Inc.</p>
+      <p class="mb-0">Carlos Avila &copy; 2026</p>
+    </div>
+
+
+  </div>
+</footer>
+
+<!-- Bootstrap 5 JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script type="text/javascript">
+function scrollSlider(sliderId, direction) {
+  const track = document.getElementById(sliderId);
+  // स्क्रीन की चौड़ाई के हिसाब से तय करें कि कितना खिसकना है
+  const scrollAmount = track.clientWidth * 0.8; 
+  track.scrollBy({
+    left: scrollAmount * direction,
+    behavior: 'smooth'
+  });
+}
+
+
+
+const slideTrigger = document.getElementById('slide-search-trigger');
+const closeOverlay = document.getElementById('close-overlay');
+const searchOverlay = document.getElementById('search-overlay');
+
+// स्लाइड पैनल खोलने के लिए
+slideTrigger.addEventListener('click', (e) => {
+  e.preventDefault();
+  searchOverlay.classList.add('active');
+  searchOverlay.querySelector('input').focus();
+});
+
+// स्लाइड पैनल बंद करने के लिए
+closeOverlay.addEventListener('click', () => {
+  searchOverlay.classList.remove('active');
+});
+
+
+
+
+
+
+<!-- Google Translate API Scripts -->
+
+  // गूगल ट्रांसलेट विजेट को इनिशियलाइज करना
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en', // आपकी वेबसाइट की डिफ़ॉल्ट भाषा (जैसे English)
+      includedLanguages: 'hi,en,es,fr,de,ar,ta,te', // जो भाषाएँ आप देना चाहते हैं (hi = Hindi, en = English, आदि)
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+
+  // जब यूजर Language पर क्लिक करेगा तब गूगल का विजेट खुलेगा
+  function showGoogleTranslate() {
+    const translateElement = document.getElementById('google_translate_element');
+    
+
+    function changeLanguage(langCode) {
+  // यह आपकी वेबसाइट के मौजूदा URL को गूगल ट्रांसलेट के साथ जोड़कर पेज को ट्रांसलेट कर देगा
+  const currentUrl = window.location.href;
+  window.location.href = `https://google.com{langCode}&u=${encodeURIComponent(currentUrl)}`;
+}
+
+    // विजेट को पहली बार लोड करना
+    if (!document.getElementById('google-translate-script')) {
+      const script = document.createElement('script');
+      script.id = 'google-translate-script';
+      script.type = 'text/javascript';
+      script.src = '//://google.com';
+      document.body.appendChild(script);
+    }
+    
+    // गूगल विजेट को स्क्रीन पर दिखाने के लिए (ताकि यूजर भाषा चुन सके)
+    translateElement.style.display = 'block';
+    translateElement.style.position = 'fixed';
+    translateElement.style.top = '20px';
+    translateElement.style.right = '20px';
+    translateElement.style.zIndex = '99999';
+    translateElement.style.backgroundColor = '#222';
+    translateElement.style.padding = '10px';
+    translateElement.style.borderRadius = '5px';
+    translateElement.style.border = '1px solid #444';
+  }
+
+
+
+  // black theam
+
+function toggleTheme() {
+  const htmlTag = document.getElementById('mainHtml');
+  const themeLabel = document.getElementById('themeLabel');
+  
+  if (htmlTag.getAttribute('data-bs-theme') === 'dark') {
+    htmlTag.setAttribute('data-bs-theme', 'light');
+    if(themeLabel) themeLabel.innerText = 'Light';
+    localStorage.setItem('site-theme', 'light');
+  } else {
+    htmlTag.setAttribute('data-bs-theme', 'dark');
+    if(themeLabel) themeLabel.innerText = 'Dark';
+    localStorage.setItem('site-theme', 'dark');
+  }
+}
+
+// पेज लोड होने पर पुरानी थीम को लागू करना
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem('site-theme') || 'dark'; // डिफ़ॉल्ट डार्क
+  const htmlTag = document.getElementById('mainHtml');
+  const themeLabel = document.getElementById('themeLabel');
+  
+  htmlTag.setAttribute('data-bs-theme', savedTheme);
+  if(themeLabel) {
+    themeLabel.innerText = savedTheme.charAt(0).toUpperCase() + savedTheme.slice(1);
+  }
+});
+
+
+
+const searchTrigger = document.getElementById("slide-search-trigger");
+const searchBox = document.getElementById("search-box");
+
+searchTrigger.addEventListener("click", function(e) {
+    e.preventDefault();
+    searchBox.classList.toggle("active");
+});
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
